@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { Movie } from './../interface/movie';
 import { Showtime } from './../interface/showtime';
 import { HttpClient } from '@angular/common/http';
+import { AngularFireDatabase } from "@angular/fire/database";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class DatabaseService {
   private moviesUrl = 'api/movies';
   private showtimesUrl = 'api/showtimes';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private db: AngularFireDatabase) { }
 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T>  => {
@@ -43,6 +45,14 @@ export class DatabaseService {
       }),
       catchError(this.handleError<Movie[]>(`getMovies`, []))
     );
+  }
+
+  getMoviesFB(limit?: number, exclude?: number | number[]): Observable<Movie[]> {
+    return this.db.list<Movie>('movies').valueChanges();
+  }
+
+  getTimesFirstMovie(movieId: number) {
+    return this.db.list(`showtimes`, ref => ref.orderByChild('movieId').equalTo(movieId)).valueChanges();
   }
 
   // Get now playing moving

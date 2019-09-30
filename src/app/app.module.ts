@@ -21,6 +21,10 @@ import { MovieSearchComponent } from './component/movie-search/movie-search.comp
 import { MoviesGridComponent } from './component/movies-grid/movies-grid.component';
 import { MoviesSliderComponent } from './component/movies-slider/movies-slider.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { environment } from "../environments/environment";
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
 
 @NgModule({
   declarations: [
@@ -46,6 +50,9 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false }
     ),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    AngularFireDatabaseModule,
     CarouselModule.forRoot()
   ],
   providers: [DatabaseService],

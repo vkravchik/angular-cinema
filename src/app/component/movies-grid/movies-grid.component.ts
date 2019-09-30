@@ -24,7 +24,10 @@ export class MoviesGridComponent implements OnInit {
   }
 
   getMovies() {
-    this.db.getMovies(this.limit, this.exclude).subscribe(movies => this.movies = movies);;
+    this.db.getMovies(this.limit, this.exclude).subscribe(movies => this.movies = movies);
+    this.db.getTimesFirstMovie(3).subscribe(res => {
+      console.log(res);
+    })
   }
 
   openModal(template: TemplateRef<any>, previewUrl: string) {
